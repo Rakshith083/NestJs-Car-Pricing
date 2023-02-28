@@ -1,4 +1,4 @@
-import { IsLatitude, IsLongitude, IsNumber, IsString, Max, Min } from "class-validator";
+import { IsBoolean, IsLatitude, IsLongitude, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class CreateReportDTO {
     @IsNumber()
@@ -27,5 +27,9 @@ export class CreateReportDTO {
     @Min(0)
     @Max(1000000)
     mileage: number;
+
+    @IsBoolean()
+    @IsOptional()
+    approved:boolean;
 
 }

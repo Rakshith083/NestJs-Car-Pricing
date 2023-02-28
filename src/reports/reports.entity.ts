@@ -1,6 +1,6 @@
 import { BaseModel } from 'src/base-models/base-model.entity';
 import { Users } from 'src/users/users.entity';
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, } from 'typeorm';
 
 @Entity()
 export class Reports extends BaseModel {
@@ -25,6 +25,9 @@ export class Reports extends BaseModel {
 
   @Column()
   mileage: number;
+
+  @Column({default:false})
+  is_approved:boolean;
 
   @ManyToOne(() => Users, (user) => user.reports)
   user: Users;

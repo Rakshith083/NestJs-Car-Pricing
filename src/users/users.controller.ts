@@ -18,6 +18,8 @@ import { UsersService } from './users.service';
 import { AuthService } from 'src/auth/auth.service';
 import { SignInDTO } from './dtos/signIn-dto';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { Users } from './users.entity';
 
 @Controller('auth')
 export class UsersController {
@@ -33,30 +35,36 @@ export class UsersController {
         session.userId = user.id;
         return user;
     }
-    
+
     @Post('/signIn')
     async userSignIn(@Body() body: SignInDTO, @Session() session: any) {
         const user = await this.authService.signin(body)
-        session.userId =user.id;
+        session.userId = user.id;
         return user;
     }
-    	
+
+    // @Get('/getLoggedInUser')
+    // @UseGuards(AuthGuard)
+    // async getLoggedInUser(@Session() session: any) {
+    //     if (!session.userId) {
+    //         throw new NotFoundException('No active sessions found')
+    //     }
+    //     return await this.userService.findOne(session.userId);
+    // }
+
     @Get('/getLoggedInUser')
     @UseGuards(AuthGuard)
-    async getLoggedInUser(@Session() session:any){
-        if(!session.userId){
-            throw new NotFoundException('No active sessions found')
-        }
-        return await this.userService.findOne(session.userId);
-        }
-    
+    async getLoggedInUser(@CurrentUser() user: Users) {
+        return user
+    }
+
     @Post('/signOut')
-    signOut(@Session() session:any){
-        if(!session.userId){
+    signOut(@Session() session: any) {
+        if (!session.userId) {
             throw new NotFoundException('No active sessions found')
         }
         this.userService.update(session.userId, { "sessionActive": false, "lastLogin": (new Date) });
-        session.userId=null;
+        session.userId = null;
         return 'Successfully logged out!'
     }
 
