@@ -22,7 +22,8 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
     }),
     UsersModule,
-    ReportsModule],
+    ReportsModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
