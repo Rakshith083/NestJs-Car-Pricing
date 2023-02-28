@@ -10,6 +10,6 @@ export class BaseModel{
     @UpdateDateColumn()
     updated_at:Date
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({select:false})
     deleted_at:Date
 }
