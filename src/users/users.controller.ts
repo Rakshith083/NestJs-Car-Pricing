@@ -30,14 +30,14 @@ export class UsersController {
     @Post('/signUp')
     async userSignUp(@Body() body: CreateUserDTO, @Session() session: any) {
         const user = await this.authService.signup(body);
-        // session.userId = user.id;
+        session.userId = user.id;
         return user;
     }
     
     @Post('/signIn')
     async userSignIn(@Body() body: SignInDTO, @Session() session: any) {
         const user = await this.authService.signin(body)
-        // session.userId =user.id;
+        session.userId =user.id;
         return user;
     }
     	
@@ -49,12 +49,6 @@ export class UsersController {
         }
         return await this.userService.findOne(session.userId);
         }
-
-    // @Get('/getLoggedInUser')
-    // @UseGuards(AuthGuard)
-    // async getLoggedInUser(@CurrentUser() user: Users) {
-    //     return user;
-    // }
     
     @Post('/signOut')
     signOut(@Session() session:any){

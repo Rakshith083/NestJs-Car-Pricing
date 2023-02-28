@@ -1,15 +1,19 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { CreateUserDTO } from 'src/users/dtos/create-user.dto';
 import { SignInDTO } from 'src/users/dtos/signIn-dto';
+import { Users } from 'src/users/users.entity';
 import { UsersService } from 'src/users/users.service';
+import { Repository } from 'typeorm';
 import { promisify } from 'util';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class AuthService {
     constructor(
-        private usersService: UsersService
+        private usersService: UsersService,
+        @InjectRepository(Users) private userRepository: Repository<Users>
     ) { }
 
     async signup(body: CreateUserDTO) {
@@ -38,7 +42,9 @@ export class AuthService {
     }
 
     async signin(body: SignInDTO) {
-        const [user] = await this.usersService.find({ email: body.email });
+        const user =await this.userRepository.findOne(
+            {where:{ "email": body.email },select:['id','name','email','password']}
+        );
         if (!user) {
             throw new NotFoundException('user not found');
         }
@@ -50,7 +56,8 @@ export class AuthService {
         if (storedHash !== hash.toString('hex')) {
             throw new BadRequestException('bad password');
         }
-
+        this.usersService.update(user.id, { sessionActive: true, lastLogin: (new Date) })
+        delete user['password'];
         return user;
     }
 }
