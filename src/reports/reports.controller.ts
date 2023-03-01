@@ -3,7 +3,6 @@ import { AdminGuard } from 'src/guards/admin.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { Users } from 'src/users/users.entity';
-import { UsersService } from 'src/users/users.service';
 import { CreateReportDTO } from './dtos/create-reports.dto';
 import { ReportsService } from './reports.service';
 
