@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
-import { CreateUserDTO } from 'src/users/dtos/create-user.dto';
+import { Roles } from 'src/roles/roles.entity';
 import { SignInDTO } from 'src/users/dtos/signIn-dto';
 import { Users } from 'src/users/users.entity';
 import { UsersService } from 'src/users/users.service';
@@ -13,10 +13,11 @@ const scrypt = promisify(_scrypt);
 export class AuthService {
     constructor(
         private usersService: UsersService,
-        @InjectRepository(Users) private userRepository: Repository<Users>
+        @InjectRepository(Users)
+        private userRepository: Repository<Users>
     ) { }
 
-    async signup(body: CreateUserDTO) {
+    async signup(body: any, role: Roles) {
         // See if email is in use
         const users = await this.usersService.find({ email: body.email });
         if (users.length) {
@@ -33,8 +34,8 @@ export class AuthService {
         // Join the hashed result and the salt together
         const result = salt + '.' + hash.toString('hex');
         body.password = result;
-
         // Create a new user and save it
+        body.role=role;
         const user = await this.usersService.createUser(body);
 
         // return the user
@@ -42,8 +43,8 @@ export class AuthService {
     }
 
     async signin(body: SignInDTO) {
-        const user =await this.userRepository.findOne(
-            {where:{ "email": body.email },select:['id','name','email','password']}
+        const user = await this.userRepository.findOne(
+            { where: { "email": body.email }, select: ['id', 'name', 'email', 'password'] }
         );
         if (!user) {
             throw new NotFoundException('user not found');

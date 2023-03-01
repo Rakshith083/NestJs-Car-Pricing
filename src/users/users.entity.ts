@@ -6,11 +6,14 @@ import {
   AfterUpdate,
   BeforeInsert,
   BeforeRemove,
-  OneToMany
+  OneToMany,
+  OneToOne,
+  JoinColumn
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Reports } from 'src/reports/reports.entity';
 import { BaseModel } from 'src/base-models/base-model.entity';
+import { Roles } from 'src/roles/roles.entity';
 
 @Entity()
 export class Users extends BaseModel {
@@ -21,18 +24,22 @@ export class Users extends BaseModel {
   @Column({ nullable: false })
   name: string;
 
-  @Column({default:false})
-  sessionActive:boolean
+  @Column({ default: false })
+  sessionActive: boolean
 
   @Column({ select: false })
   @Exclude()
   password: string;
 
   @Column({ nullable: true })
-  lastLogin:Date
+  lastLogin: Date
 
-  @OneToMany(()=>Reports,(report)=>report.user)
-  reports:Reports[];
+  @OneToMany(() => Reports, (report) => report.user)
+  reports: Reports[];
+
+  @OneToOne(() => Roles)
+  @JoinColumn({name:"role_id"})
+  role: Roles
 
   @AfterInsert()
   logAfterInsert() {
@@ -50,7 +57,7 @@ export class Users extends BaseModel {
   }
 
   @BeforeRemove()
-  logBeforeDelete(){
+  logBeforeDelete() {
     console.log(`deleting user with id ${this.id}`);
   }
 }

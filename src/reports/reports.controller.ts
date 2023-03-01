@@ -1,4 +1,5 @@
 import { Body, ClassSerializerInterceptor, Controller, Param, Patch, Post, Session, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AdminGuard } from 'src/guards/admin.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { Users } from 'src/users/users.entity';
@@ -23,7 +24,7 @@ export class ReportsController {
     }
 
     @Patch('/approve/:id')
-    // @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     approveReports(
         @Body('is_approved') is_approved:any,

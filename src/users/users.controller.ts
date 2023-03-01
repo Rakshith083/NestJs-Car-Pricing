@@ -20,18 +20,22 @@ import { SignInDTO } from './dtos/signIn-dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Users } from './users.entity';
+import { RolesService } from 'src/roles/roles.service';
 
 @Controller('auth')
 export class UsersController {
     constructor(
         private userService: UsersService,
         private authService: AuthService,
+        private roleService: RolesService
     ) { }
 
     @UseInterceptors(ClassSerializerInterceptor)
     @Post('/signUp')
     async userSignUp(@Body() body: CreateUserDTO, @Session() session: any) {
-        const user = await this.authService.signup(body);
+        if (!body.roleName) { body.roleName = 'local' }
+        var role = await this.roleService.findRole(body.roleName)
+        const user = await this.authService.signup(body, role);
         session.userId = user.id;
         return user;
     }

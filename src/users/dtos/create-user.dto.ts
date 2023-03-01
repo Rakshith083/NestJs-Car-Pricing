@@ -1,22 +1,26 @@
-import { IsBoolean, IsDate, IsEmail,IsOptional,IsString, Length } from "class-validator";
+import { IsBoolean, IsDate, IsEmail, IsOptional, IsString, Length } from "class-validator";
 
-export class CreateUserDTO{
+export class CreateUserDTO {
     @IsEmail()
-    email:string;
+    email: string;
 
     @IsString()
-    @Length(5,8)
-    password:string;
+    @Length(5, 8)
+    password: string;
 
     @IsString()
-    @Length(3,100)
-    name:string
+    @Length(3, 100)
+    name: string
 
     @IsBoolean()
     @IsOptional()
-    sessionActive:boolean
+    sessionActive: boolean
 
     @IsDate()
     @IsOptional()
-    lastLogin:Date
+    lastLogin: Date
+
+    @IsString()
+    @IsOptional()
+    roleName: string
 }

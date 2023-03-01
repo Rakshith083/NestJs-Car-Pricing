@@ -20,11 +20,14 @@ export class UsersService {
         return this.userRepository.find({ "where": query })
     }
 
-    findOne(id: any) {
+    async findOne(id: any) {
         if (!id) {
             throw new BadRequestException('Id not found')
         }
-        return this.userRepository.findOne({ "where": { "id": id } });
+        let user=await this.userRepository.findOne({ "where": { "id": id } ,relations:['role']});
+        // console.log('Logging USer : ',user)
+        return user;
+
     }
 
     async update(id: string, record: Partial<Users>) {
