@@ -15,7 +15,10 @@ export class AuthService {
         private usersService: UsersService,
         @InjectRepository(Users)
         private userRepository: Repository<Users>
-    ) { }
+    ) {
+        userRepository.remove = userRepository.softRemove;
+        userRepository.delete = userRepository.softDelete;
+    }
 
     async signup(body: any, role: Roles) {
         // See if email is in use
@@ -35,7 +38,7 @@ export class AuthService {
         const result = salt + '.' + hash.toString('hex');
         body.password = result;
         // Create a new user and save it
-        body.role=role;
+        body.role = role;
         const user = await this.usersService.createUser(body);
 
         // return the user

@@ -2,13 +2,10 @@ import {
   Entity,
   Column,
   AfterInsert,
-  AfterRemove,
   AfterUpdate,
-  BeforeInsert,
   BeforeRemove,
   OneToMany,
-  OneToOne,
-  JoinColumn
+  ManyToOne
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Reports } from 'src/reports/reports.entity';
@@ -37,9 +34,8 @@ export class Users extends BaseModel {
   @OneToMany(() => Reports, (report) => report.user)
   reports: Reports[];
 
-  @OneToOne(() => Roles)
-  @JoinColumn({name:"role_id"})
-  role: Roles
+  @ManyToOne(() => Roles, (role) => role.user)
+  role: Roles;
 
   @AfterInsert()
   logAfterInsert() {

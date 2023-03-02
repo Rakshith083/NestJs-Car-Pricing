@@ -1,8 +1,8 @@
 import {  NestMiddleware } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Request, Response, NextFunction } from 'express'
-import { Repository } from "typeorm";
 import { Users } from "../users.entity";
+import { UsersService } from "../users.service";
 
 declare global {
     namespace Express{
@@ -15,12 +15,12 @@ declare global {
 export class CurrentUserMiddleware implements NestMiddleware {
     constructor(
         @InjectRepository(Users) 
-        private userRepository: Repository<Users>
+        private userService:UsersService
 
     ) { }
     async use(req: Request, res: Response, next: NextFunction) {
         if (req.session.userId) {
-            const user = await this.userRepository.findOne({ "where": { "id": req.session.userId } ,relations:['role']});
+            const user = await this.userService.findOne(req.session.userId);
             req.currentUser = user;
         }
         next();

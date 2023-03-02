@@ -1,5 +1,6 @@
 import { BaseModel } from "src/base-models/base-model.entity";
-import { Column, Entity } from "typeorm";
+import { Users } from "src/users/users.entity";
+import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity()
 export class Roles extends BaseModel {
@@ -8,4 +9,7 @@ export class Roles extends BaseModel {
 
     @Column({ nullable: false })
     description: string
+
+    @OneToMany(() => Users, (user) => user.role)
+    user: Users[]
 }
