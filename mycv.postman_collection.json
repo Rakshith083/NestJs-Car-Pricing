@@ -6,71 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "Reports",
-			"item": [
-				{
-					"name": "Create Report",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"make\": \"toyota\",\r\n  \"model\": \"corolla\",\r\n  \"year\": 1980,\r\n  \"mileage\": 100000,\r\n  \"lng\": 0,\r\n  \"lat\": 0,\r\n  \"price\": 500000\r\n}"
-						},
-						"url": {
-							"raw": "http://localhost:3000/reports",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"reports"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Approve existing record",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"is_approved\":false\r\n}"
-						},
-						"url": {
-							"raw": "http://localhost:3000/reports/approve/cca0aa3b-39f7-4092-bb18-ec2ffcb4cfa1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"reports",
-								"approve",
-								"cca0aa3b-39f7-4092-bb18-ec2ffcb4cfa1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Roles",
 			"item": [
 				{
@@ -310,6 +245,71 @@
 							"path": [
 								"auth",
 								"signOut"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Create Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"make\": \"toyota\",\r\n  \"model\": \"corolla\",\r\n  \"year\": 1980,\r\n  \"mileage\": 100000,\r\n  \"lng\": 0,\r\n  \"lat\": 0,\r\n  \"price\": 500000\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/reports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve existing record",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"is_approved\":false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/reports/approve/cca0aa3b-39f7-4092-bb18-ec2ffcb4cfa1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reports",
+								"approve",
+								"cca0aa3b-39f7-4092-bb18-ec2ffcb4cfa1"
 							]
 						}
 					},
