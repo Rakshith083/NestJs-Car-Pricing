@@ -5,7 +5,8 @@ import {
   AfterUpdate,
   BeforeRemove,
   OneToMany,
-  ManyToOne
+  ManyToOne,
+  Unique
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Reports } from 'src/reports/reports.entity';
@@ -13,16 +14,14 @@ import { BaseModel } from 'src/base-models/base-model.entity';
 import { Roles } from 'src/roles/roles.entity';
 
 @Entity()
+@Unique(['email', 'deleted_at'])
 export class Users extends BaseModel {
 
-  @Column({ unique: true })
+  @Column()
   email: string;
 
   @Column({ nullable: false })
   name: string;
-
-  @Column({ default: false })
-  sessionActive: boolean
 
   @Column({ select: false })
   @Exclude()

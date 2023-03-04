@@ -60,7 +60,7 @@ export class AuthService {
         if (storedHash !== hash.toString('hex')) {
             throw new BadRequestException('bad password');
         }
-        this.usersService.update(user.id, { sessionActive: true, lastLogin: (new Date) })
+        this.usersService.update(user.id, { lastLogin: (new Date) })
         delete user['password'];
         return user;
     }

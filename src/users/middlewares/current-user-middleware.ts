@@ -1,9 +1,9 @@
 import {  NestMiddleware } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Request, Response, NextFunction } from 'express'
+import { RequestContext } from "src/utils/req-ctx";
 import { Repository } from "typeorm";
 import { Users } from "../users.entity";
-import { UsersService } from "../users.service";
 
 declare global {
     namespace Express{
@@ -24,6 +24,7 @@ export class CurrentUserMiddleware implements NestMiddleware {
             let user=await this.userRepository.findOne({ "where": { "id": req.session.userId } ,relations:['role']});
             req.currentUser = user;
         }
+        RequestContext.currentRequest = req;
         next();
     }
 

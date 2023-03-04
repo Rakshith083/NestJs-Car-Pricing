@@ -67,7 +67,6 @@ export class UsersController {
         if (!session.userId) {
             throw new NotFoundException('No active sessions found')
         }
-        this.userService.update(session.userId, { "sessionActive": false, "lastLogin": (new Date) });
         session.userId = null;
         return 'Successfully logged out!'
     }

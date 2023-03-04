@@ -24,8 +24,7 @@ export class UsersService {
         if (!id) {
             throw new BadRequestException('Id not found')
         }
-        let user=await this.userRepository.findOne({ "where": { "id": id } ,relations:['role']});
-        // console.log('Logging USer : ',user)
+        let user = await this.userRepository.findOne({ "where": { "id": id }, relations: ['role'] });
         return user;
 
     }
