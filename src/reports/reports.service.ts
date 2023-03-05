@@ -9,10 +9,7 @@ import { Reports } from './reports.entity';
 export class ReportsService {
     constructor(
         @InjectRepository(Reports) private reportsRepository: Repository<Reports>
-    ) {
-        reportsRepository.remove = reportsRepository.softRemove;
-        reportsRepository.delete = reportsRepository.softDelete;
-    }
+    ) {}
     createReport(body: CreateReportDTO, user: Users) {
         let report = this.reportsRepository.create(body)
         report.user = user;

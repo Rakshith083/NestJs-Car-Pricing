@@ -6,15 +6,20 @@ import {
   BeforeRemove,
   OneToMany,
   ManyToOne,
-  Unique
+  Unique,
+  Index,
+  AfterRemove,
+  Repository,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Reports } from 'src/reports/reports.entity';
-import { BaseModel } from 'src/base-models/base-model.entity';
+import { BaseModel } from 'src/base-models/base-model';
 import { Roles } from 'src/roles/roles.entity';
+import { AuditModel } from 'src/base-models/audit-model';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Entity()
-@Unique(['email', 'deleted_at'])
+@Unique(['email',])
 export class Users extends BaseModel {
 
   @Column()
@@ -30,7 +35,10 @@ export class Users extends BaseModel {
   @Column({ nullable: true })
   lastLogin: Date
 
-  @OneToMany(() => Reports, (report) => report.user)
+  @Column(() => AuditModel)
+  _: AuditModel
+
+  @OneToMany(() => Reports, (report) => report.user,{onDelete:"CASCADE"})
   reports: Reports[];
 
   @ManyToOne(() => Roles, (role) => role.user)
@@ -47,12 +55,17 @@ export class Users extends BaseModel {
   // }
 
   @AfterUpdate()
-  logAfterUpdate() {
+  async logAfterUpdate() {
     console.log(`user with id ${this.id} is updated`);
   }
 
   @BeforeRemove()
-  logBeforeDelete() {
-    console.log(`deleting user with id ${this.id}`);
+  async logBeforeDelete() {
+    console.log('HI Before delete')
+  }
+
+  @AfterRemove()
+  async logAfterRemove() {
+    console.log('HI After delete')
   }
 }

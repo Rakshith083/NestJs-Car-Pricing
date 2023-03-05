@@ -1,25 +1,22 @@
 import { Req } from "@nestjs/common";
 import { Exclude } from "class-transformer";
 import { RequestContext } from "src/utils/req-ctx";
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from "typeorm";
 
-export class BaseModel {
-    @PrimaryGeneratedColumn('uuid')
-    id: string
-
-    @CreateDateColumn()
+export class AuditModel{
+    @CreateDateColumn({name:"created_at"})
     created_at: Date
 
-    @Column({ default: null })
+    @Column({name:"created_by", default: null })
     created_by: string
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({name:"modified_at"})
     modified_at: Date
 
-    @Column({ default: null })
+    @Column({name:"modified_by", default: null })
     modified_by: string
 
-    @DeleteDateColumn({ select: false })
+    @DeleteDateColumn({name:"deleted_at", select: false })
     @Exclude()
     deleted_at: Date
 

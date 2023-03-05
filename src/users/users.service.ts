@@ -7,10 +7,7 @@ import { Users } from './users.entity';
 export class UsersService {
     constructor(
         @InjectRepository(Users) private userRepository: Repository<Users>
-    ) {
-        userRepository.remove = userRepository.softRemove;
-        userRepository.delete = userRepository.softDelete;
-    }
+    ) { }
     createUser(body: object) {
         const instance = this.userRepository.create(body);
         return this.userRepository.save(instance);
@@ -43,7 +40,7 @@ export class UsersService {
             throw new NotFoundException('User Not Found');
         }
         else {
-            this.userRepository.remove(user)
+            this.userRepository.softRemove(user)
             return "Successfully deleted"
         }
     }

@@ -15,10 +15,7 @@ export class AuthService {
         private usersService: UsersService,
         @InjectRepository(Users)
         private userRepository: Repository<Users>
-    ) {
-        userRepository.remove = userRepository.softRemove;
-        userRepository.delete = userRepository.softDelete;
-    }
+    ) { }
 
     async signup(body: any, role: Roles) {
         // See if email is in use
