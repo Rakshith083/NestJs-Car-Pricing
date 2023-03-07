@@ -7,16 +7,13 @@ import {
   OneToMany,
   ManyToOne,
   Unique,
-  Index,
   AfterRemove,
-  Repository,
+  BeforeInsert,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Reports } from 'src/reports/reports.entity';
 import { BaseModel } from 'src/base-models/base-model';
 import { Roles } from 'src/roles/roles.entity';
-import { AuditModel } from 'src/base-models/audit-model';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Entity()
 @Unique(['email',])
@@ -35,8 +32,8 @@ export class Users extends BaseModel {
   @Column({ nullable: true })
   lastLogin: Date
 
-  @Column(() => AuditModel)
-  _: AuditModel
+  // @Column(() => AuditModel)
+  // _: AuditModel
 
   @OneToMany(() => Reports, (report) => report.user,{onDelete:"CASCADE"})
   reports: Reports[];
@@ -49,10 +46,10 @@ export class Users extends BaseModel {
     console.log('User Created with ID : ', this.id);
   }
 
-  // @BeforeInsert()
-  // logBeforeInsert(){
-  //   console.log('Inserting user ',this.email)
-  // }
+  @BeforeInsert()
+  logBeforeInsert(){
+    console.log('Inserting user ',this.email)
+  }
 
   @AfterUpdate()
   async logAfterUpdate() {

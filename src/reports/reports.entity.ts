@@ -27,9 +27,6 @@ export class Reports extends BaseModel {
   @Column()
   mileage: number;
 
-  @Column(() => AuditModel)
-  _: AuditModel
-
   @Column({ default: false })
   is_approved: boolean;
 

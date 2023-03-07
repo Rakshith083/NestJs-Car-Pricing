@@ -12,8 +12,8 @@ export class Roles extends BaseModel {
   @Column({ nullable: false })
   description: string
 
-  @Column(() => AuditModel)
-  _: AuditModel
+  // @Column(() => AuditModel)
+  // _: AuditModel
 
   @OneToMany(() => Users, (user) => user.role)
   user: Users[]
