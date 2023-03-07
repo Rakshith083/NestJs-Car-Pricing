@@ -1,7 +1,7 @@
 import {  NestMiddleware } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Request, Response, NextFunction } from 'express'
-import { RequestContext } from "src/utils/req-ctx";
+import { RequestContext } from "src/lib/utils/req-ctx";
 import { Repository } from "typeorm";
 import { Users } from "../users.entity";
 

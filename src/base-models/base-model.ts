@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { RequestContext } from "src/utils/req-ctx";
+import { RequestContext } from "src/lib/utils/req-ctx";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export class BaseModel {
